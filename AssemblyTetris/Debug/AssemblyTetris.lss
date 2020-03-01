@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.7  C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm Sun Mar 01 01:48:45 2020
+AVRASM ver. 2.2.7  C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm Sun Mar 01 02:51:15 2020
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\Atmel\ATtiny_DFP\1.4.283\avrasm\inc\tn817def.inc'
 C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm(12): Including file 'C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\initialization.asm'
@@ -4605,7 +4605,7 @@ C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm(13
                                  
                                  .cseg
                                  
-000000 c112                      rjmp start
+000000 c116                      rjmp start
                                  
                                  .include "initialization.asm"
                                  
@@ -4676,45 +4676,46 @@ C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm(13
                                  
 000019 e021                      	ldi r18, TCA_SINGLE_OVF_bm
 00001a 9320 0a0b                 	sts TCA0_SINGLE_INTFLAGS, r18
-00001c 9518                      	reti
+00001c d1c0                      	rcall rng_iterate
+00001d 9518                      	reti
                                  
                                  mcu_init:
                                  	; Set clock source to 20 MHz, with div 2 prescaler
-00001d ed08                      	ldi r16, CPU_CCP_IOREG_gc
-00001e bf04                      	out CPU_CCP, r16
-00001f e001                      	ldi r16, CLKCTRL_PEN_bm
-000020 9300 0061                 	sts CLKCTRL_MCLKCTRLB, r16
+00001e ed08                      	ldi r16, CPU_CCP_IOREG_gc
+00001f bf04                      	out CPU_CCP, r16
+000020 e001                      	ldi r16, CLKCTRL_PEN_bm
+000021 9300 0061                 	sts CLKCTRL_MCLKCTRLB, r16
                                  
                                  	; Setup TCA0 for periodic interrupt ev. 0x1000 clock cycles
-000022 e001                      	ldi r16, TCA_SINGLE_OVF_bm
-000023 9300 0a0a                 	sts TCA0_SINGLE_INTCTRL, r16
-000025 e100                      	ldi r16, 0x10
-000026 9300 0a27                 	sts (TCA0_SINGLE_PER+1), r16
-000028 e003                      	ldi r16, TCA_SINGLE_CLKSEL_DIV2_gc | TCA_SINGLE_ENABLE_bm
-000029 9300 0a00                 	sts TCA0_SINGLE_CTRLA, r16
+000023 e001                      	ldi r16, TCA_SINGLE_OVF_bm
+000024 9300 0a0a                 	sts TCA0_SINGLE_INTCTRL, r16
+000026 e100                      	ldi r16, 0x10
+000027 9300 0a27                 	sts (TCA0_SINGLE_PER+1), r16
+000029 e003                      	ldi r16, TCA_SINGLE_CLKSEL_DIV2_gc | TCA_SINGLE_ENABLE_bm
+00002a 9300 0a00                 	sts TCA0_SINGLE_CTRLA, r16
                                  	
                                  	; Set all PB-pins to GND, but disable driver for now
-00002b 2700                          clr r16
-00002c b904                      	out VPORTB_DIR, r16
-00002d b905                      	out VPORTB_OUT, r16
+00002c 2700                          clr r16
+00002d b904                      	out VPORTB_DIR, r16
+00002e b905                      	out VPORTB_OUT, r16
                                  
                                  	; Setup PA1-3 for button input
-00002e e008                      	ldi r16, PORT_PULLUPEN_bm
-00002f 9300 0411                 	sts PORTA_PIN1CTRL, r16
-000031 9300 0412                 	sts PORTA_PIN2CTRL, r16
-000033 9300 0413                 	sts PORTA_PIN3CTRL, r16
+00002f e008                      	ldi r16, PORT_PULLUPEN_bm
+000030 9300 0411                 	sts PORTA_PIN1CTRL, r16
+000032 9300 0412                 	sts PORTA_PIN2CTRL, r16
+000034 9300 0413                 	sts PORTA_PIN3CTRL, r16
                                  	
                                  	; Setup PC0-3 as outputs to address decoder
-000035 e00f                      	ldi r16, 0x0F
-000036 b908                      	out VPORTC_DIR, r16
-000037 e800                      	ldi r16, PORT_INVEN_bm
-000038 9300 0450                 	sts PORTC_PIN0CTRL, r16
-00003a 9300 0451                 	sts PORTC_PIN1CTRL, r16
-00003c 9300 0452                 	sts PORTC_PIN2CTRL, r16
-00003e 9300 0453                 	sts PORTC_PIN3CTRL, r16
+000036 e00f                      	ldi r16, 0x0F
+000037 b908                      	out VPORTC_DIR, r16
+000038 e800                      	ldi r16, PORT_INVEN_bm
+000039 9300 0450                 	sts PORTC_PIN0CTRL, r16
+00003b 9300 0451                 	sts PORTC_PIN1CTRL, r16
+00003d 9300 0452                 	sts PORTC_PIN2CTRL, r16
+00003f 9300 0453                 	sts PORTC_PIN3CTRL, r16
                                  	
-000040 9478                      	sei
-000041 9508                      	ret
+000041 9478                      	sei
+000042 9508                      	ret
                                  .include "utilities.asm"
                                  
                                   * utilities.asm
@@ -4724,31 +4725,34 @@ C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm(13
                                   */ 
                                  
                                  wait_long:
-000042 930f                      	push r16
-000043 931f                      	push r17
-000044 932f                      	push r18
-000045 ef00                      	ldi r16, 0xF0
-000046 2711                      	clr r17
-000047 2722                      	clr r18
+000043 930f                      	push r16
+000044 931f                      	push r17
+000045 932f                      	push r18
+000046 ef00                      	ldi r16, 0xF0
+000047 2711                      	clr r17
+000048 2722                      	clr r18
                                  	wait_long_l3:
                                  		wait_long_l2:
                                  			wait_long_l1:
-000048 9523                      				inc r18
-000049 f7f1                      				brne wait_long_l1
-00004a 9513                      			inc r17
-00004b f7e1                      			brne wait_long_l2
-00004c 9503                      		inc r16
-00004d f7d1                      		brne wait_long_l3
+000049 9523                      				inc r18
+00004a f7f1                      				brne wait_long_l1
+00004b 9513                      			inc r17
+00004c f7e1                      			brne wait_long_l2
+00004d 9503                      		inc r16
+00004e f7d1                      		brne wait_long_l3
                                  
-00004e 912f                      	pop r18
-00004f 911f                      	pop r17
-000050 910f                      	pop r16
-000051 9508                      	ret
+00004f 912f                      	pop r18
+000050 911f                      	pop r17
+000051 910f                      	pop r16
+000052 9508                      	ret
                                  
                                  ; State of the falling piece
                                  .def r_piece_i = r23
                                  .def r_piece_x = r24
                                  .def r_piece_y = r25
+                                 
+                                 ; Variable to generate pseudo-random numbers
+                                 .def r_rngvar = r0
                                  
                                  ; 4x4 bitfields of all pieces, in all rotations
                                  ; Last two bits of MSN indicates how to change
@@ -4777,87 +4781,104 @@ C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm(13
 000111 20f0                          /* I */ 0x5444, 0x20F0, \
 000112 0066                          /* O */ 0x0066
                                  
+                                 ; Array containing the indices of the first
+                                 ;   rotation of each piece. Used to get
+                                 ;   equal distribution of pieces from the
+                                 ;   rng
+                                 piece_index:
+000113 0400
+000114 0c08
+000115 100e
+000116 0012                      	.db 0, 4, 8, 12, 14, 16, 18, 0
+                                 	; (Last zero is only padding)
+                                 
                                  
                                  start:
-000113 df09                      	rcall mcu_init
-000114 d022                      	rcall display_clear
+000117 df06                      	rcall mcu_init
+000118 d028                      	rcall display_clear
                                  
-000115 e070                      	ldi r_piece_i, 0
-000116 e084                      	ldi r_piece_x, 4
-000117 e090                      	ldi r_piece_y, 0
+000119 e070                      	ldi r_piece_i, 0
+00011a e084                      	ldi r_piece_x, 4
+00011b e090                      	ldi r_piece_y, 0
                                  
-000118 d053                      	rcall piece_draw
+00011c d05a                      	rcall piece_draw
                                  
                                  main_loop:
-000119 df28                      	rcall wait_long
+00011d df25                      	rcall wait_long
+00011e d0be                      	rcall rng_iterate
                                  
-00011a d067                      	rcall piece_clear
+00011f d06d                      	rcall piece_clear
                                  	
                                  	; Handle player input
-00011b b102                          in r16, VPORTA_IN
+000120 b102                          in r16, VPORTA_IN
                                  
                                  	; Backup piece position
-00011c 2f18                      	mov r17, r_piece_x
-00011d ff01                          sbrs r16, 1
-00011e 9583                      		inc r_piece_x
-00011f ff03                          sbrs r16, 3
-000120 958a                      		dec r_piece_x
-000121 d077                      	rcall piece_intersects
-000122 3060                      	cpi r22, 0
-000123 f009                      	breq main_if1
+000121 2f18                      	mov r17, r_piece_x
+000122 ff01                          sbrs r16, 1
+000123 9583                      		inc r_piece_x
+000124 ff03                          sbrs r16, 3
+000125 958a                      		dec r_piece_x
+000126 d07d                      	rcall piece_intersects
+000127 3060                      	cpi r22, 0
+000128 f009                      	breq main_if1
                                  		; Player input led to intersection
-000124 2f81                      		mov r_piece_x, r17
+000129 2f81                      		mov r_piece_x, r17
                                  	main_if1:
                                  	
                                  	; Backup piece rotation
-000125 2f17                      	mov r17, r_piece_i
-000126 ff02                      	sbrs r16, 2
-000127 d0a4                      		rcall piece_rotate
-000128 d070                      	rcall piece_intersects
-000129 3060                      	cpi r22, 0
-00012a f009                      	breq main_if2
+00012a 2f17                      	mov r17, r_piece_i
+00012b ff02                      	sbrs r16, 2
+00012c d0aa                      		rcall piece_rotate
+00012d d076                      	rcall piece_intersects
+00012e 3060                      	cpi r22, 0
+00012f f009                      	breq main_if2
                                  		; Player input led to intersection
-00012b 2f71                      		mov r_piece_i, r17
+000130 2f71                      		mov r_piece_i, r17
                                  	main_if2:
                                  
                                  	
                                  	; Do drop
-00012c 9593                      	inc r_piece_y
-00012d d06b                      	rcall piece_intersects
-00012e 3060                      	cpi r22, 0
-00012f f029                      	breq main_if3
+000131 9593                      	inc r_piece_y
+000132 d071                      	rcall piece_intersects
+000133 3060                      	cpi r22, 0
+000134 f051                      	breq main_if3
                                  		; Drop led to intersection
-000130 959a                      		dec r_piece_y
-000131 d03a                      		rcall piece_draw
+000135 959a                      		dec r_piece_y
+000136 d040                      		rcall piece_draw
                                  		
-000132 e070                      		ldi r_piece_i, 0
-000133 e084                      		ldi r_piece_x, 4
-000134 e090                      		ldi r_piece_y, 0
+000137 e0f2                      		ldi ZH, HIGH(piece_index << 1)
+000138 e2e6                      		ldi ZL, LOW(piece_index << 1)
+000139 2700                      		clr r16
+00013a 0de0                      		add ZL, r_rngvar
+00013b 1ff0                      		adc ZH, r16
+00013c 9174                      		lpm r_piece_i, Z
+00013d e084                      		ldi r_piece_x, 4
+00013e e090                      		ldi r_piece_y, 0
                                  	main_if3:
                                  
-000135 d036                      	rcall piece_draw
-000136 cfe2                      rjmp main_loop
+00013f d037                      	rcall piece_draw
+000140 cfdc                      rjmp main_loop
                                  
                                  
                                  ; Clears the entire display
                                  display_clear:
-000137 930f                          push r16
-000138 93af                          push XL
-000139 93bf                          push XH
+000141 930f                          push r16
+000142 93af                          push XL
+000143 93bf                          push XH
                                  
-00013a 2700                          clr r16
-00013b e3be                          ldi XH, HIGH(display_data)
-00013c 27aa                      	clr XL
+000144 2700                          clr r16
+000145 e3be                          ldi XH, HIGH(display_data)
+000146 27aa                      	clr XL
                                  
                                      display_clear_loop:
-00013d 930d                              st X+, r16
-00013e 31a0                              cpi XL, 16
-00013f f7e9                              brne display_clear_loop
+000147 930d                              st X+, r16
+000148 31a0                              cpi XL, 16
+000149 f7e9                              brne display_clear_loop
                                  
-000140 91bf                          pop XH
-000141 91af                          pop XL
-000142 910f                          pop r16
-000143 9508                      ret
+00014a 91bf                          pop XH
+00014b 91af                          pop XL
+00014c 910f                          pop r16
+00014d 9508                      ret
                                  
                                  
                                  ; Retreives a line from the current piece,
@@ -4867,255 +4888,268 @@ C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm(13
                                  ; If the line intersects the sides r21, will be
                                  ;   non-zero
                                  piece_get_line:
-000144 930f                      	push r16
-000145 93af                      	push XL
-000146 93bf                      	push XH
-000147 93ef                      	push ZL
-000148 93ff                      	push ZH
+00014e 930f                      	push r16
+00014f 93af                      	push XL
+000150 93bf                      	push XH
+000151 93ef                      	push ZL
+000152 93ff                      	push ZH
                                  
                                  	; Set Z to address the current piece bitfield
-000149 e0f2                      	ldi ZH, HIGH(pieces << 1)
-00014a 2fe7                      	mov ZL, r_piece_i
-00014b 0fee                      	lsl ZL
+000153 e0f2                      	ldi ZH, HIGH(pieces << 1)
+000154 2fe7                      	mov ZL, r_piece_i
+000155 0fee                      	lsl ZL
                                  
                                  	; Get second byte if r22 > 1
-00014c fd61                      	sbrc r22, 1
-00014d 95e3                      		inc ZL
+000156 fd61                      	sbrc r22, 1
+000157 95e3                      		inc ZL
                                  
                                  	; Get byte
-00014e 9104                      	lpm r16, Z
+000158 9104                      	lpm r16, Z
                                  
                                  	; Get high nibble if r22 is 1 or 3
-00014f fd60                      	sbrc r22, 0
-000150 9502                      		swap r16
-000151 700f                      	andi r16, 0xF
+000159 fd60                      	sbrc r22, 0
+00015a 9502                      		swap r16
+00015b 700f                      	andi r16, 0xF
                                  
                                  	; Mask out rotation sequence information
-000152 3063                      	cpi r22, 3
-000153 f409                      	brne piece_get_line_if_1
-000154 700c                      		andi r16, 0xC
+00015c 3063                      	cpi r22, 3
+00015d f409                      	brne piece_get_line_if_1
+00015e 700c                      		andi r16, 0xC
                                  	piece_get_line_if_1:
                                  
                                  	; Move the line into r22
-000155 2f60                      	mov r22, r16
+00015f 2f60                      	mov r22, r16
                                  	; Move x-pos into r16 to do the shifting
-000156 2f08                      	mov r16, r_piece_x
-000157 5002                      	subi r16, 2
+000160 2f08                      	mov r16, r_piece_x
+000161 5002                      	subi r16, 2
                                  
                                  	; Shift right if position is less than 2
-000158 f040                      	brcs piece_get_line_shr
+000162 f040                      	brcs piece_get_line_shr
                                  
                                  	; r21 will be set non-zero if any bits are
                                  	;   shifted out of the line
-000159 2755                      	clr r21
+000163 2755                      	clr r21
                                  
                                  	; Loop to shift left
                                  	piece_get_line_loop1:
-00015a 3000                      		cpi r16, 0
-00015b f051                      		breq piece_get_line_exit
-00015c 0f66                      		lsl r22
-00015d f408                      		brcc piece_get_line_if1
-00015e 6051                      			ori r21, 1
+000164 3000                      		cpi r16, 0
+000165 f051                      		breq piece_get_line_exit
+000166 0f66                      		lsl r22
+000167 f408                      		brcc piece_get_line_if1
+000168 6051                      			ori r21, 1
                                  		piece_get_line_if1:
-00015f 950a                      		dec r16
-000160 cff9                      		rjmp piece_get_line_loop1
+000169 950a                      		dec r16
+00016a cff9                      		rjmp piece_get_line_loop1
                                  
                                  	; Shift right once or twice
                                  	piece_get_line_shr:
-000161 9566                      	lsr r22
-000162 ff00                      	sbrs r16, 0
-000163 9566                      		lsr r22
-000164 f408                      	brcc piece_get_line_if2
-000165 6051                      		ori r21, 1
+00016b 9566                      	lsr r22
+00016c ff00                      	sbrs r16, 0
+00016d 9566                      		lsr r22
+00016e f408                      	brcc piece_get_line_if2
+00016f 6051                      		ori r21, 1
                                  	piece_get_line_if2:
                                  
                                  	piece_get_line_exit:
-000166 91ff                      	pop ZH
-000167 91ef                      	pop ZL
-000168 91bf                      	pop XH
-000169 91af                      	pop XL
-00016a 910f                      	pop r16
-                                 
-00016b 9508                      ret
+000170 91ff                      	pop ZH
+000171 91ef                      	pop ZL
+000172 91bf                      	pop XH
+000173 91af                      	pop XL
+000174 910f                      	pop r16
+000175 d067                      	rcall rng_iterate
+000176 9508                      ret
                                  
                                  
                                  ; Draws the current falling piece on the board
                                  piece_draw:
-00016c 930f                      	push r16
-00016d 931f                      	push r17
-00016e 936f                      	push r22
-00016f 93af                      	push XL
-000170 93bf                      	push XH
+000177 930f                      	push r16
+000178 931f                      	push r17
+000179 936f                      	push r22
+00017a 93af                      	push XL
+00017b 93bf                      	push XH
                                  	
-000171 e3be                      	ldi XH, HIGH(display_data)
-000172 2fa9                      	mov XL, r_piece_y
+00017c e3be                      	ldi XH, HIGH(display_data)
+00017d 2fa9                      	mov XL, r_piece_y
                                  
-000173 2700                      	clr r16
+00017e 2700                      	clr r16
                                  	piece_draw_loop:
                                  		; Fetch line from board into r17
-000174 911c                      		ld r17, X
+00017f 911c                      		ld r17, X
                                  
                                  		; Fetch line from piece into r22
-000175 2f60                      		mov r22, r16
-000176 dfcd                      		rcall piece_get_line
+000180 2f60                      		mov r22, r16
+000181 dfcc                      		rcall piece_get_line
                                  
                                  		; Or them together
-000177 2b16                      		or r17, r22
+000182 2b16                      		or r17, r22
                                  
                                  		; Store result in board
-000178 931d                      		st X+, r17
+000183 931d                      		st X+, r17
                                  
-000179 9503                      		inc r16
-00017a 3004                      		cpi r16, 4
-00017b f3c4                      		brlt piece_draw_loop
+000184 9503                      		inc r16
+000185 3004                      		cpi r16, 4
+000186 f3c4                      		brlt piece_draw_loop
                                  
-00017c 91bf                      	pop XH
-00017d 91af                      	pop XL
-00017e 916f                      	pop r22
-00017f 911f                      	pop r17
-000180 910f                      	pop r16
-000181 9508                      ret
+000187 91bf                      	pop XH
+000188 91af                      	pop XL
+000189 916f                      	pop r22
+00018a 911f                      	pop r17
+00018b 910f                      	pop r16
+00018c 9508                      ret
                                  
                                  
                                  ; Draws the current falling piece on the board
                                  piece_clear:
-000182 930f                      	push r16
-000183 931f                      	push r17
-000184 936f                      	push r22
-000185 93af                      	push XL
-000186 93bf                      	push XH
+00018d 930f                      	push r16
+00018e 931f                      	push r17
+00018f 936f                      	push r22
+000190 93af                      	push XL
+000191 93bf                      	push XH
                                  	
-000187 e3be                      	ldi XH, HIGH(display_data)
-000188 2fa9                      	mov XL, r_piece_y
+000192 e3be                      	ldi XH, HIGH(display_data)
+000193 2fa9                      	mov XL, r_piece_y
                                  
-000189 2700                      	clr r16
+000194 2700                      	clr r16
                                  	piece_clear_loop:
                                  		; Fetch line from board into r17
-00018a 911c                      		ld r17, X
+000195 911c                      		ld r17, X
                                  
                                  		; Fetch line from piece into r22
-00018b 2f60                      		mov r22, r16
-00018c dfb7                      		rcall piece_get_line
+000196 2f60                      		mov r22, r16
+000197 dfb6                      		rcall piece_get_line
                                  
                                  		; And out the piece
-00018d 9560                      		com r22
-00018e 2316                      		and r17, r22
+000198 9560                      		com r22
+000199 2316                      		and r17, r22
                                  
                                  		; Store result in board
-00018f 931d                      		st X+, r17
+00019a 931d                      		st X+, r17
                                  
-000190 9503                      		inc r16
-000191 3004                      		cpi r16, 4
-000192 f3bc                      		brlt piece_clear_loop
+00019b 9503                      		inc r16
+00019c 3004                      		cpi r16, 4
+00019d f3bc                      		brlt piece_clear_loop
                                  
-000193 91bf                      	pop XH
-000194 91af                      	pop XL
-000195 916f                      	pop r22
-000196 911f                      	pop r17
-000197 910f                      	pop r16
-000198 9508                      ret
+00019e 91bf                      	pop XH
+00019f 91af                      	pop XL
+0001a0 916f                      	pop r22
+0001a1 911f                      	pop r17
+0001a2 910f                      	pop r16
+0001a3 9508                      ret
                                  
                                  
                                  ; Check if the current piece intersects the board
                                  ; Return value given in r22 (0 if no intersection)
                                  piece_intersects:
-000199 930f                      	push r16
-00019a 931f                      	push r17
-00019b 934f                      	push r20
-00019c 935f                      	push r21
-00019d 93af                      	push XL
-00019e 93bf                      	push XH
+0001a4 930f                      	push r16
+0001a5 931f                      	push r17
+0001a6 934f                      	push r20
+0001a7 935f                      	push r21
+0001a8 93af                      	push XL
+0001a9 93bf                      	push XH
                                  	
-00019f e3be                      	ldi XH, HIGH(display_data)
-0001a0 2fa9                      	mov XL, r_piece_y
+0001aa e3be                      	ldi XH, HIGH(display_data)
+0001ab 2fa9                      	mov XL, r_piece_y
                                  	
                                  	; r20 accumulates intersection points
-0001a1 2744                      	clr r20
+0001ac 2744                      	clr r20
                                  
-0001a2 2711                      	clr r17
+0001ad 2711                      	clr r17
                                  	piece_intersects_loop:
                                  		; Set board-line to full, then load value
                                  		;   from board if the index is in range
-0001a3 ef0f                      		ldi r16, 0xFF
-0001a4 31a0                      		cpi XL, 16
-0001a5 f40c                      		brge piece_intersects_if1
-0001a6 910d                      			ld r16, X+
+0001ae ef0f                      		ldi r16, 0xFF
+0001af 31a0                      		cpi XL, 16
+0001b0 f40c                      		brge piece_intersects_if1
+0001b1 910d                      			ld r16, X+
                                  		piece_intersects_if1:
                                  
                                  		; Fetch line from piece into r22
-0001a7 2f61                      		mov r22, r17
-0001a8 df9b                      		rcall piece_get_line
+0001b2 2f61                      		mov r22, r17
+0001b3 df9a                      		rcall piece_get_line
                                  		
                                  		; r21 is non-zero if line intersected
                                  		;   the sides
-0001a9 2b45                      		or r20, r21
+0001b4 2b45                      		or r20, r21
                                  
                                  		; Check for intersections with board
-0001aa 2306                      		and r16, r22
+0001b5 2306                      		and r16, r22
                                  
                                  		; Add intrsecions to result
-0001ab 2b40                      		or r20, r16
+0001b6 2b40                      		or r20, r16
                                  
-0001ac 9513                      		inc r17
-0001ad 3014                      		cpi r17, 4
-0001ae f3a4                      		brlt piece_intersects_loop
+0001b7 9513                      		inc r17
+0001b8 3014                      		cpi r17, 4
+0001b9 f3a4                      		brlt piece_intersects_loop
                                  
-0001af 2f64                      	mov r22, r20
-0001b0 91bf                      	pop XH
-0001b1 91af                      	pop XL
-0001b2 915f                      	pop r21
-0001b3 914f                      	pop r20
-0001b4 911f                      	pop r17
-0001b5 910f                      	pop r16
-0001b6 9508                      ret
+0001ba 2f64                      	mov r22, r20
+0001bb 91bf                      	pop XH
+0001bc 91af                      	pop XL
+0001bd 915f                      	pop r21
+0001be 914f                      	pop r20
+0001bf 911f                      	pop r17
+0001c0 910f                      	pop r16
+0001c1 9508                      ret
                                  
                                  
                                  ; Get the index of the rotated version of the
                                  ; current piece. Returned in r22.
                                  piece_get_rotated_index:
-0001b7 930f                      	push r16
-0001b8 93ef                      	push ZL
-0001b9 93ff                      	push ZH
+0001c2 930f                      	push r16
+0001c3 93ef                      	push ZL
+0001c4 93ff                      	push ZH
                                  	
                                  	; Set Z to address the current piece bitfield
-0001ba e0f2                      	ldi ZH, HIGH(pieces << 1)
-0001bb 2fe7                      	mov ZL, r_piece_i
-0001bc 0fee                      	lsl ZL
+0001c5 e0f2                      	ldi ZH, HIGH(pieces << 1)
+0001c6 2fe7                      	mov ZL, r_piece_i
+0001c7 0fee                      	lsl ZL
                                  
                                  	; Get second byte
-0001bd 95e3                      	inc ZL
+0001c8 95e3                      	inc ZL
                                  	
                                  	; Load byte, and get the rotation-information
-0001be 9104                      	lpm r16, Z
-0001bf 7300                      	andi r16, 0x30
+0001c9 9104                      	lpm r16, Z
+0001ca 7300                      	andi r16, 0x30
                                  
-0001c0 2f67                      	mov r22, r_piece_i
-0001c1 fd04                      	sbrc r16, 4
-0001c2 9563                      		inc r22
-0001c3 fd05                      	sbrc r16, 5
-0001c4 956a                      		dec r22
-0001c5 3300                      	cpi r16, 0x30
-0001c6 f409                      	brne piece_get_rotated_index_exit
-0001c7 5063                      		subi r22, 3
+0001cb 2f67                      	mov r22, r_piece_i
+0001cc fd04                      	sbrc r16, 4
+0001cd 9563                      		inc r22
+0001ce fd05                      	sbrc r16, 5
+0001cf 956a                      		dec r22
+0001d0 3300                      	cpi r16, 0x30
+0001d1 f409                      	brne piece_get_rotated_index_exit
+0001d2 5063                      		subi r22, 3
                                  	piece_get_rotated_index_exit:
-0001c8 91ff                      	pop ZH
-0001c9 91ef                      	pop ZL
-0001ca 910f                      	pop r16
-0001cb 9508                      ret
+0001d3 91ff                      	pop ZH
+0001d4 91ef                      	pop ZL
+0001d5 910f                      	pop r16
+0001d6 9508                      ret
                                  
                                  
                                  ; Rotate the current piece by advancing r_piece_i
                                  piece_rotate:
-0001cc 936f                      	push r22
+0001d7 936f                      	push r22
                                  	
                                  	; Get index of piece to load (in r22)
-0001cd dfe9                      	rcall piece_get_rotated_index
+0001d8 dfe9                      	rcall piece_get_rotated_index
                                  
                                  	; Load it
-0001ce 2f76                      	mov r_piece_i, r22
+0001d9 2f76                      	mov r_piece_i, r22
                                  
-0001cf 916f                      	pop r22
-0001d0 9508                      ret
+0001da 916f                      	pop r22
+0001db d001                      	rcall rng_iterate
+0001dc 9508                      ret
+                                 
+                                 rng_iterate:
+0001dd 930f                      	push r16
+0001de 9403                      	inc r_rngvar
+0001df e007                      	ldi r16, 7
+0001e0 1600                      	cp r_rngvar, r16
+0001e1 f409                      	brne rng_iterate_if1
+0001e2 2400                      		clr r_rngvar
+                                 	rng_iterate_if1:
+                                 
+0001e3 910f                      	pop r16
+0001e4 9508                      ret
 
 
 RESOURCE USE INFORMATION
@@ -5133,39 +5167,39 @@ counted separately from r26..r31 here.
 .dseg memory usage only counts static data declared with .byte
 
 "ATtiny817" register use summary:
-x  :   6 y  :   0 z  :   3 r0 :   0 r1 :   0 r2 :   0 r3 :   0 r4 :   0 
+x  :   6 y  :   0 z  :   4 r0 :   4 r1 :   0 r2 :   0 r3 :   0 r4 :   0 
 r5 :   0 r6 :   0 r7 :   0 r8 :   0 r9 :   0 r10:   0 r11:   0 r12:   0 
-r13:   0 r14:   0 r15:   0 r16:  77 r17:  24 r18:   6 r19:   0 r20:   6 
+r13:   0 r14:   0 r15:   0 r16:  83 r17:  24 r18:   6 r19:   0 r20:   6 
 r21:   6 r22:  29 r23:   8 r24:   7 r25:   7 r26:  16 r27:  14 r28:   0 
-r29:   0 r30:  17 r31:   9 
-Registers used: 15 out of 35 (42.9%)
+r29:   0 r30:  19 r31:  11 
+Registers used: 16 out of 35 (45.7%)
 
 "ATtiny817" instruction use summary:
-.lds  :   0 .sts  :   0 adc   :   0 add   :   0 adiw  :   0 and   :   2 
+.lds  :   0 .sts  :   0 adc   :   1 add   :   1 adiw  :   0 and   :   2 
 andi  :   4 asr   :   0 bclr  :   0 bld   :   0 brbc  :   0 brbs  :   0 
 brcc  :   2 brcs  :   1 break :   0 breq  :   4 brge  :   1 brhc  :   0 
 brhs  :   0 brid  :   0 brie  :   0 brlo  :   0 brlt  :   3 brmi  :   0 
-brne  :   6 brpl  :   0 brsh  :   0 brtc  :   0 brts  :   0 brvc  :   0 
+brne  :   7 brpl  :   0 brsh  :   0 brtc  :   0 brts  :   0 brvc  :   0 
 brvs  :   0 bset  :   0 bst   :   0 cbi   :   0 cbr   :   0 clc   :   0 
-clh   :   0 cli   :   0 cln   :   0 clr   :  10 cls   :   0 clt   :   0 
-clv   :   0 clz   :   0 com   :   1 cp    :   0 cpc   :   0 cpi   :  11 
+clh   :   0 cli   :   0 cln   :   0 clr   :  12 cls   :   0 clt   :   0 
+clv   :   0 clz   :   0 com   :   1 cp    :   1 cpc   :   0 cpi   :  11 
 cpse  :   0 dec   :   4 des   :   0 eor   :   0 fmul  :   0 fmuls :   0 
-fmulsu:   0 icall :   0 ijmp  :   0 in    :   1 inc   :  12 ld    :   4 
-ldd   :   0 ldi   :  24 lds   :   1 lpm   :   4 lsl   :   3 lsr   :   2 
+fmulsu:   0 icall :   0 ijmp  :   0 in    :   1 inc   :  13 ld    :   4 
+ldd   :   0 ldi   :  26 lds   :   1 lpm   :   6 lsl   :   3 lsr   :   2 
 mov   :  17 movw  :   0 mul   :   0 muls  :   0 mulsu :   0 neg   :   0 
-nop   :   0 or    :   3 ori   :   2 out   :   6 pop   :  34 push  :  34 
-rcall :  15 ret   :   9 reti  :   1 rjmp  :   4 rol   :   0 ror   :   0 
+nop   :   0 or    :   3 ori   :   2 out   :   6 pop   :  35 push  :  35 
+rcall :  19 ret   :  10 reti  :   1 rjmp  :   4 rol   :   0 ror   :   0 
 sbc   :   0 sbci  :   0 sbi   :   0 sbic  :   0 sbis  :   0 sbiw  :   0 
 sbr   :   0 sbrc  :   4 sbrs  :   4 sec   :   0 seh   :   0 sei   :   1 
 sen   :   0 ser   :   0 ses   :   0 set   :   0 sev   :   0 sez   :   0 
 sleep :   0 spm   :   0 st    :   3 std   :   0 sts   :  13 sub   :   0 
 subi  :   2 swap  :   1 tst   :   0 wdr   :   0 
-Instructions used: 37 out of 112 (33.0%)
+Instructions used: 40 out of 112 (35.7%)
 
 "ATtiny817" memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x0003a2    530     38    568    8192   6.9%
+[.cseg] 0x000000 0x0003ca    564     46    610    8192   7.4%
 [.dseg] 0x003e00 0x003e11      0     17     17     512   3.3%
 [.eseg] 0x000000 0x000000      0      0      0     128   0.0%
 

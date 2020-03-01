@@ -37,6 +37,7 @@ ISR_TCA0_OVF:
 
 	ldi r18, TCA_SINGLE_OVF_bm
 	sts TCA0_SINGLE_INTFLAGS, r18
+	rcall rng_iterate
 	reti
 
 mcu_init:

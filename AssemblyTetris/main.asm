@@ -17,6 +17,9 @@ rjmp start
 .def r_piece_x = r24
 .def r_piece_y = r25
 
+; Variable to generate pseudo-random numbers
+.def r_rngvar = r0
+
 ; 4x4 bitfields of all pieces, in all rotations
 ; Last two bits of MSN indicates how to change
 ; the index when the piece is rotated
@@ -32,6 +35,14 @@ pieces:
     /* I */ 0x5444, 0x20F0, \
     /* O */ 0x0066
 
+; Array containing the indices of the first
+;   rotation of each piece. Used to get
+;   equal distribution of pieces from the
+;   rng
+piece_index:
+	.db 0, 4, 8, 12, 14, 16, 18, 0
+	; (Last zero is only padding)
+
 
 start:
 	rcall mcu_init
@@ -45,6 +56,7 @@ start:
 
 main_loop:
 	rcall wait_long
+	rcall rng_iterate
 
 	rcall piece_clear
 	
@@ -85,7 +97,12 @@ main_loop:
 		dec r_piece_y
 		rcall piece_draw
 		
-		ldi r_piece_i, 0
+		ldi ZH, HIGH(piece_index << 1)
+		ldi ZL, LOW(piece_index << 1)
+		clr r16
+		add ZL, r_rngvar
+		adc ZH, r16
+		lpm r_piece_i, Z
 		ldi r_piece_x, 4
 		ldi r_piece_y, 0
 	main_if3:
@@ -190,7 +207,7 @@ piece_get_line:
 	pop XH
 	pop XL
 	pop r16
-
+	rcall rng_iterate
 ret
 
 
@@ -370,4 +387,17 @@ piece_rotate:
 	mov r_piece_i, r22
 
 	pop r22
+	rcall rng_iterate
+ret
+
+rng_iterate:
+	push r16
+	inc r_rngvar
+	ldi r16, 7
+	cp r_rngvar, r16
+	brne rng_iterate_if1
+		clr r_rngvar
+	rng_iterate_if1:
+
+	pop r16
 ret
