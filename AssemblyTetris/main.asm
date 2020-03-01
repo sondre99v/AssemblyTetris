@@ -96,6 +96,7 @@ main_loop:
 		; Drop led to intersection
 		dec r_piece_y
 		rcall piece_draw
+		rcall remove_full_rows
 		
 		ldi ZH, HIGH(piece_index << 1)
 		ldi ZL, LOW(piece_index << 1)
@@ -399,5 +400,45 @@ rng_iterate:
 		clr r_rngvar
 	rng_iterate_if1:
 
+	pop r16
+ret
+
+; Modify display data to remove any rows that are
+;   filled. Move rows down after the full rows
+remove_full_rows:
+	push r16
+	push r17
+	push r18
+	push XL
+	push XH
+
+	ldi XH, HIGH(display_data)
+	
+	; Start at the bottom. r17 holds the row to
+	;   check. r18 holds where the row should be
+	;   placed
+	ldi r17, 15
+	ldi r18, 15
+	remove_full_rows_loop:
+		mov XL, r17
+		ld r16, X
+		mov XL, r18
+		st X, r16
+
+		; If r16 is full, skip decrementing the
+		;   put-back index, meaning the row will
+		;   be overwritten
+		com r16
+		breq remove_full_rows_if1
+			dec r18
+		remove_full_rows_if1:
+
+		subi r17, 1
+		brcc remove_full_rows_loop
+
+	pop XH
+	pop XL
+	pop r18
+	pop r17
 	pop r16
 ret

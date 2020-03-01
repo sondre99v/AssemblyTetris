@@ -28,7 +28,7 @@
   <ISR_TCA0_OVF><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\initialization.asm</FILE><LINE>19</LINE></ISR_TCA0_OVF>
   <display_data><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\initialization.asm</FILE><LINE>15</LINE></display_data>
   <line_index><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\initialization.asm</FILE><LINE>16</LINE></line_index>
-  <rng_iterate><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>393</LINE></rng_iterate>
+  <rng_iterate><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>394</LINE></rng_iterate>
   <mcu_init><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\initialization.asm</FILE><LINE>43</LINE></mcu_init>
   <wait_long><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\utilities.asm</FILE><LINE>8</LINE></wait_long>
   <wait_long_l3><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\utilities.asm</FILE><LINE>15</LINE></wait_long_l3>
@@ -36,29 +36,32 @@
   <wait_long_l1><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\utilities.asm</FILE><LINE>17</LINE></wait_long_l1>
   <pieces><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>28</LINE></pieces>
   <piece_index><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>42</LINE></piece_index>
-  <display_clear><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>115</LINE></display_clear>
-  <piece_draw><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>215</LINE></piece_draw>
+  <display_clear><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>116</LINE></display_clear>
+  <piece_draw><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>216</LINE></piece_draw>
   <main_loop><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>57</LINE></main_loop>
-  <piece_clear><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>253</LINE></piece_clear>
-  <piece_intersects><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>293</LINE></piece_intersects>
+  <piece_clear><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>254</LINE></piece_clear>
+  <piece_intersects><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>294</LINE></piece_intersects>
   <main_if1><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>77</LINE></main_if1>
-  <piece_rotate><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>380</LINE></piece_rotate>
+  <piece_rotate><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>381</LINE></piece_rotate>
   <main_if2><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>88</LINE></main_if2>
-  <main_if3><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>108</LINE></main_if3>
-  <display_clear_loop><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>124</LINE></display_clear_loop>
-  <piece_get_line><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>141</LINE></piece_get_line>
-  <piece_get_line_if_1><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>169</LINE></piece_get_line_if_1>
-  <piece_get_line_shr><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>196</LINE></piece_get_line_shr>
-  <piece_get_line_loop1><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>185</LINE></piece_get_line_loop1>
-  <piece_get_line_exit><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>204</LINE></piece_get_line_exit>
-  <piece_get_line_if1><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>191</LINE></piece_get_line_if1>
-  <piece_get_line_if2><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>202</LINE></piece_get_line_if2>
-  <piece_draw_loop><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>226</LINE></piece_draw_loop>
-  <piece_clear_loop><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>264</LINE></piece_clear_loop>
-  <piece_intersects_loop><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>308</LINE></piece_intersects_loop>
-  <piece_intersects_if1><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>315</LINE></piece_intersects_if1>
-  <piece_get_rotated_index><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>347</LINE></piece_get_rotated_index>
-  <piece_get_rotated_index_exit><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>372</LINE></piece_get_rotated_index_exit>
-  <rng_iterate_if1><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>400</LINE></rng_iterate_if1>
+  <main_if3><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>109</LINE></main_if3>
+  <remove_full_rows><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>408</LINE></remove_full_rows>
+  <display_clear_loop><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>125</LINE></display_clear_loop>
+  <piece_get_line><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>142</LINE></piece_get_line>
+  <piece_get_line_if_1><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>170</LINE></piece_get_line_if_1>
+  <piece_get_line_shr><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>197</LINE></piece_get_line_shr>
+  <piece_get_line_loop1><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>186</LINE></piece_get_line_loop1>
+  <piece_get_line_exit><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>205</LINE></piece_get_line_exit>
+  <piece_get_line_if1><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>192</LINE></piece_get_line_if1>
+  <piece_get_line_if2><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>203</LINE></piece_get_line_if2>
+  <piece_draw_loop><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>227</LINE></piece_draw_loop>
+  <piece_clear_loop><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>265</LINE></piece_clear_loop>
+  <piece_intersects_loop><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>309</LINE></piece_intersects_loop>
+  <piece_intersects_if1><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>316</LINE></piece_intersects_if1>
+  <piece_get_rotated_index><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>348</LINE></piece_get_rotated_index>
+  <piece_get_rotated_index_exit><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>373</LINE></piece_get_rotated_index_exit>
+  <rng_iterate_if1><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>401</LINE></rng_iterate_if1>
+  <remove_full_rows_loop><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>422</LINE></remove_full_rows_loop>
+  <remove_full_rows_if1><FILE>C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm</FILE><LINE>434</LINE></remove_full_rows_if1>
  </LABELS>
 </ASSEMBLER_INFO>

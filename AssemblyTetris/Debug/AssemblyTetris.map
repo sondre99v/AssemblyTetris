@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.7  C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm Sun Mar 01 02:51:15 2020
+AVRASM ver. 2.2.7  C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm Sun Mar 01 03:24:28 2020
 
 
 EQU  SIGNATURE_000 0000001e
@@ -3212,7 +3212,7 @@ CSEG start        00000117
 CSEG ISR_TCA0_OVF 00000009
 DSEG display_data 00003e00
 DSEG line_index   00003e10
-CSEG rng_iterate  000001dd
+CSEG rng_iterate  000001de
 CSEG mcu_init     0000001e
 CSEG wait_long    00000043
 CSEG wait_long_l3 00000049
@@ -3224,27 +3224,30 @@ DEF  r_piece_y    r25
 DEF  r_rngvar     r0
 CSEG pieces       00000100
 CSEG piece_index  00000113
-CSEG display_clear 00000141
-CSEG piece_draw   00000177
+CSEG display_clear 00000142
+CSEG piece_draw   00000178
 CSEG main_loop    0000011d
-CSEG piece_clear  0000018d
-CSEG piece_intersects 000001a4
+CSEG piece_clear  0000018e
+CSEG piece_intersects 000001a5
 CSEG main_if1     0000012a
-CSEG piece_rotate 000001d7
+CSEG piece_rotate 000001d8
 CSEG main_if2     00000131
-CSEG main_if3     0000013f
-CSEG display_clear_loop 00000147
-CSEG piece_get_line 0000014e
-CSEG piece_get_line_if_1 0000015f
-CSEG piece_get_line_shr 0000016b
-CSEG piece_get_line_loop1 00000164
-CSEG piece_get_line_exit 00000170
-CSEG piece_get_line_if1 00000169
-CSEG piece_get_line_if2 00000170
-CSEG piece_draw_loop 0000017f
-CSEG piece_clear_loop 00000195
-CSEG piece_intersects_loop 000001ae
-CSEG piece_intersects_if1 000001b2
-CSEG piece_get_rotated_index 000001c2
-CSEG piece_get_rotated_index_exit 000001d3
-CSEG rng_iterate_if1 000001e3
+CSEG main_if3     00000140
+CSEG remove_full_rows 000001e6
+CSEG display_clear_loop 00000148
+CSEG piece_get_line 0000014f
+CSEG piece_get_line_if_1 00000160
+CSEG piece_get_line_shr 0000016c
+CSEG piece_get_line_loop1 00000165
+CSEG piece_get_line_exit 00000171
+CSEG piece_get_line_if1 0000016a
+CSEG piece_get_line_if2 00000171
+CSEG piece_draw_loop 00000180
+CSEG piece_clear_loop 00000196
+CSEG piece_intersects_loop 000001af
+CSEG piece_intersects_if1 000001b3
+CSEG piece_get_rotated_index 000001c3
+CSEG piece_get_rotated_index_exit 000001d4
+CSEG rng_iterate_if1 000001e4
+CSEG remove_full_rows_loop 000001ee
+CSEG remove_full_rows_if1 000001f5
