@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.7  C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm Sat Feb 29 21:15:31 2020
+AVRASM ver. 2.2.7  C:\Users\Sondre\Documents\Repositories\AssemblyTetris\AssemblyTetris\main.asm Sun Mar 01 01:48:45 2020
 
 
 EQU  SIGNATURE_000 0000001e
@@ -3208,37 +3208,39 @@ EQU  USART0_DRE_voffset 00000001
 EQU  USART0_TXC_voffset 00000002
 EQU  NVMCTRL_EE_voffset 00000000
 EQU  INT_VECTORS_SIZE 0000001a
-DSEG falling_piece 00003e00
-DSEG falling_pos  00003e04
-DSEG falling_type 00003e05
-DSEG falling_index 00003e06
-CSEG main         00000113
+CSEG start        00000113
 CSEG ISR_TCA0_OVF 00000009
-DSEG display_data 00003f00
-DSEG line_index   00003f10
+DSEG display_data 00003e00
+DSEG line_index   00003e10
 CSEG mcu_init     0000001d
 CSEG wait_long    00000042
 CSEG wait_long_l3 00000048
 CSEG wait_long_l2 00000048
 CSEG wait_long_l1 00000048
+DEF  r_piece_i    r23
+DEF  r_piece_x    r24
+DEF  r_piece_y    r25
 CSEG pieces       00000100
-CSEG display_clear 00000163
-CSEG piece_spawn  00000170
-CSEG main_loop    00000117
-CSEG piece_clear  000001c7
-CSEG piece_rotate 00000212
-CSEG piece_shift  00000207
-CSEG piece_intersects 000001e3
-CSEG main_if1     00000141
-CSEG piece_lower  000001ff
-CSEG main_if2     00000161
-CSEG piece_draw   000001a7
-CSEG display_clear_loop 00000169
-CSEG piece_load   0000017d
-CSEG piece_load_loop 0000018a
-CSEG piece_load_if1 00000193
-CSEG piece_load_loop2_exit 0000019c
-CSEG piece_load_loop2 00000197
-CSEG piece_draw_loop 000001b4
-CSEG piece_clear_loop 000001d4
-CSEG piece_intersects_loop 000001f1
+CSEG display_clear 00000137
+CSEG piece_draw   0000016c
+CSEG main_loop    00000119
+CSEG piece_clear  00000182
+CSEG piece_intersects 00000199
+CSEG main_if1     00000125
+CSEG piece_rotate 000001cc
+CSEG main_if2     0000012c
+CSEG main_if3     00000135
+CSEG display_clear_loop 0000013d
+CSEG piece_get_line 00000144
+CSEG piece_get_line_if_1 00000155
+CSEG piece_get_line_shr 00000161
+CSEG piece_get_line_loop1 0000015a
+CSEG piece_get_line_exit 00000166
+CSEG piece_get_line_if1 0000015f
+CSEG piece_get_line_if2 00000166
+CSEG piece_draw_loop 00000174
+CSEG piece_clear_loop 0000018a
+CSEG piece_intersects_loop 000001a3
+CSEG piece_intersects_if1 000001a7
+CSEG piece_get_rotated_index 000001b7
+CSEG piece_get_rotated_index_exit 000001c8

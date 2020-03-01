@@ -9,7 +9,7 @@ wait_long:
 	push r16
 	push r17
 	push r18
-	ldi r16, 0xE0
+	ldi r16, 0xF0
 	clr r17
 	clr r18
 	wait_long_l3:

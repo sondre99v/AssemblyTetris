@@ -60,6 +60,9 @@
     <Compile Include="main.asm">
       <SubType>Code</SubType>
     </Compile>
+    <None Include="main_old.asm">
+      <SubType>Code</SubType>
+    </None>
     <Compile Include="utilities.asm">
       <SubType>Code</SubType>
     </Compile>

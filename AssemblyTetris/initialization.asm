@@ -5,7 +5,7 @@
  *   Author: Sondre
  */ 
 
-rjmp main
+.include "tn817def.inc"
 
 ; Interrupt Vector Table
 .org 0x08 rjmp ISR_TCA0_OVF
