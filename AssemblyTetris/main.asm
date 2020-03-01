@@ -106,6 +106,13 @@ main_loop:
 		lpm r_piece_i, Z
 		ldi r_piece_x, 4
 		ldi r_piece_y, 0
+		
+		; Check if new piece intersects the board
+		; If it does. The game is over
+		rcall piece_intersects
+		cpi r22, 0
+		breq main_if3
+			rcall display_clear
 	main_if3:
 
 	rcall piece_draw
